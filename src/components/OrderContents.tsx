@@ -14,7 +14,6 @@ const OrderContents = ({ order, removerItem }: orderItemProps) => {
         <div>
 
             {
-                order.length === 0 ? <p className="text-center">No hay ordenes</p> :
                     order.map(item => (
                         <div
                             key={item.id}

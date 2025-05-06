@@ -2,7 +2,10 @@ import { useState } from "react"
 import { MenuItem, OrderItem } from "../types"
 
 
+
+
 export function useOrder() {
+
 
     const [order, setOrden] = useState<OrderItem[]>([]);
     const [tip, setTip] = useState(0);
@@ -24,6 +27,28 @@ export function useOrder() {
     const removerItem = (id: MenuItem['id']) => {
         setOrden(order.filter(item => item.id !== id))
     }
+    const guardarOrden = (order: OrderItem[]) =>{
+        if (order.length === 0) {
+            console.warn("No hay productos en la orden");
+            return;
+          }
+        
+          console.log("Guardando orden en localStorage...");
+        
+          try {
+            const ordenString = JSON.stringify(order);
+            localStorage.setItem("ordenActual", ordenString);
+        
+            console.log("✅ Orden guardada en localStorage");
+        
+            // Limpiar el estado
+            setOrden([]);
+            setTip(0);
+          } catch (error) {
+            console.error("❌ Error al guardar en localStorage:", error);
+          }
+
+    }
 
     return {
         order,
@@ -31,6 +56,7 @@ export function useOrder() {
         setTip,
         addItem,
         removerItem,
+        guardarOrden
 
     }
 }
